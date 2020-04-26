@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 723f79d610ead8067b9620ec3d76e45fc2152bfe159d5026b7b747796e895011
+-- hash: a6736b707da77ae2fcfc9f71aebbd0c906e614f0ca3ceace407b8bb40c17d8ae
 
 name:           alisa
 version:        0.1.0.0
@@ -27,13 +27,18 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Loader
   other-modules:
       Paths_alisa
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , bytestring
+    , containers
+    , http-client
+    , http-client-tls
+    , http-types
   default-language: Haskell2010
 
 executable alisa-exe
@@ -46,6 +51,11 @@ executable alisa-exe
   build-depends:
       alisa
     , base >=4.7 && <5
+    , bytestring
+    , containers
+    , http-client
+    , http-client-tls
+    , http-types
   default-language: Haskell2010
 
 test-suite alisa-test
@@ -59,4 +69,9 @@ test-suite alisa-test
   build-depends:
       alisa
     , base >=4.7 && <5
+    , bytestring
+    , containers
+    , http-client
+    , http-client-tls
+    , http-types
   default-language: Haskell2010
