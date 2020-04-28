@@ -15,20 +15,20 @@ import Text.Read (readMaybe)
 import Progress
 
 run :: Response BodyReader -> Progress a -> IO ()
-run r w =
-    when (isSuccess r) $ do
-        case contentLength r of
-            Just cl -> return ()
+run res pg =
+    when (isSuccess res) $ do
+        case contentLength res of
+            Just cl -> setContentLength pg cl
             Nothing -> return ()
-        load (responseBody r) w
+        load (responseBody res) pg
 
 load :: IO ByteString -> Progress a -> IO ()
-load r w = doLoad
+load r w = go
     where
-        doLoad = do
+        go = do
             bs <- r
             print $ BS.length bs
-            unless (BS.null bs) $ doLoad
+            unless (BS.null bs) go
 
 isSuccess :: Response a -> Bool
 isSuccess = statusIsSuccessful . responseStatus
