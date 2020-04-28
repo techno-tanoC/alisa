@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0151d0db56c812537ebdbfdc34e4b5207ebebfce39026fe07f5d83055670635b
+-- hash: a090e2169715f7243fbe3161853b3783b080342f0e0f7b838950a83780c5491a
 
 name:           alisa
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Loader
       Progress
+      Reporter
       Write
   other-modules:
       Paths_alisa
