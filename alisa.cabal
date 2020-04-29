@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a090e2169715f7243fbe3161853b3783b080342f0e0f7b838950a83780c5491a
+-- hash: b94d64338b00cbf4c37511eb32505a0441f7a5f365de186af6afaa8374aea0cb
 
 name:           alisa
 version:        0.1.0.0
@@ -65,6 +65,7 @@ test-suite alisa-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Buff
       Paths_alisa
   hs-source-dirs:
       test
@@ -74,6 +75,7 @@ test-suite alisa-test
     , base >=4.7 && <5
     , bytestring
     , containers
+    , hspec
     , http-client
     , http-client-tls
     , http-types
