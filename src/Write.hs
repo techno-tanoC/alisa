@@ -11,9 +11,3 @@ class Writable a where
 
 instance Writable Handle where
     write = BS.hPut
-
-newtype Buff = Buff (MVar ByteString)
-
-instance Writable Buff where
-    write (Buff m) bs = modifyMVar_ m $ \inner -> do
-        return $ BS.append inner bs
