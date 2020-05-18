@@ -13,8 +13,9 @@ import Network.HTTP.Types
 import Text.Read (readMaybe)
 
 import Progress
+import Write
 
-run :: Response BodyReader -> Progress a -> IO ()
+run :: Writable a => Response BodyReader -> Progress a -> IO ()
 run res pg =
     when (isSuccess res) $ do
         case contentLength res of
@@ -22,13 +23,12 @@ run res pg =
             Nothing -> return ()
         load (responseBody res) pg
 
-load :: IO ByteString -> Progress a -> IO ()
+load :: Writable a => IO ByteString -> a -> IO ()
 load r w = go
     where
         go = do
             bs <- r
-            print $ BS.length bs
-            unless (BS.null bs) go
+            unless (BS.null bs) (write w bs >> go)
 
 isSuccess :: Response a -> Bool
 isSuccess = statusIsSuccessful . responseStatus
