@@ -1,0 +1,43 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Stack Files
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.stack
+          key: v1-Vmh3dVmAaFp2Ej8-${{ runner.os }}-${{ hashFiles('**/stack.yaml.lock') }}-${{ hashFiles('**/stockin-api.cabal') }}
+          restore-keys: |
+            v1-Vmh3dVmAaFp2Ej8-${{ runner.os }}-${{ hashFiles('**/stack.yaml.lock') }}-${{ hashFiles('**/stockin-api.cabal') }}
+            v1-Vmh3dVmAaFp2Ej8-${{ runner.os }}-${{ hashFiles('**/stack.yaml.lock') }}
+            v1-Vmh3dVmAaFp2Ej8-${{ runner.os }}
+
+      - name: Setup Haskell
+        uses: haskell/actions/setup@v1
+        with:
+          enable-stack: true
+
+      - name: Setup Stack
+        run: |
+          stack setup
+
+      - name: Build Dependencies
+        run: |
+          stack test --only-dependencies
+
+      - name: Run Tests
+        run: |
+          stack test
