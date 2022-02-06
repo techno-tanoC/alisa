@@ -30,31 +30,13 @@ spec = withTempDir $ do
         withSystemTempFile "alisa" $ \path handle -> do
           hPutStr handle content
           hClose handle
+
           Rename.copy rename path "test" "txt"
           readFile (dir </> "test.txt") `shouldReturn` content
 
-    context "when exists" $ do
-      it "copies to the fresh path" $ \dir -> do
-        rename <- currentRename dir
-
-        writeFile (dir </> "test.txt") dummy
-
-        withSystemTempFile "alisa" $ \path handle -> do
-          hPutStr handle content
-          hClose handle
           Rename.copy rename path "test" "txt"
           readFile (dir </> "test(1).txt") `shouldReturn` content
 
-    context "when exists twice" $ do
-      it "copies to the fresh path" $ \dir -> do
-        rename <- currentRename dir
-
-        writeFile (dir </> "test.txt") dummy
-        writeFile (dir </> "test(1).txt") dummy
-
-        withSystemTempFile "alisa" $ \path handle -> do
-          hPutStr handle "hello"
-          hClose handle
           Rename.copy rename path "test" "txt"
           readFile (dir </> "test(2).txt") `shouldReturn` content
 
