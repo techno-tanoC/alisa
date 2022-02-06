@@ -22,7 +22,7 @@ new root uid gid = do
 
 copy :: Rename -> FilePath -> Name -> Ext -> IO ()
 copy (Rename lock root uid gid) src n e = withMVar lock $ \() -> do
-  fresh <- freshName root n e
+  fresh <- freshName root (sanitize n) e
   copyFile src fresh
   setOwnerAndGroup fresh uid gid
 
@@ -46,3 +46,8 @@ buildName n i e = n ++ count i ++ tail e
     tail :: String -> String
     tail "" = ""
     tail ext = '.' : ext
+
+sanitize :: FilePath -> FilePath
+sanitize [] = []
+sanitize ('/' : cs) = '／' : sanitize cs
+sanitize (c : cs) = c : sanitize cs

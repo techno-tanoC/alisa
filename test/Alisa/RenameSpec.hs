@@ -24,7 +24,7 @@ spec = withTempDir $ do
 
   describe "copy" $ do
     context "when not exists" $ do
-      it "copies to the file" $ \dir -> do
+      it "copies to the path" $ \dir -> do
         rename <- currentRename dir
 
         withSystemTempFile "alisa" $ \path handle -> do
@@ -34,7 +34,7 @@ spec = withTempDir $ do
           readFile (dir </> "test.txt") `shouldReturn` content
 
     context "when exists" $ do
-      it "copies to the fresh name" $ \dir -> do
+      it "copies to the fresh path" $ \dir -> do
         rename <- currentRename dir
 
         writeFile (dir </> "test.txt") dummy
@@ -46,7 +46,7 @@ spec = withTempDir $ do
           readFile (dir </> "test(1).txt") `shouldReturn` content
 
     context "when exists twice" $ do
-      it "copies to the fresh name" $ \dir -> do
+      it "copies to the fresh path" $ \dir -> do
         rename <- currentRename dir
 
         writeFile (dir </> "test.txt") dummy
@@ -57,3 +57,13 @@ spec = withTempDir $ do
           hClose handle
           Rename.copy rename path "test" "txt"
           readFile (dir </> "test(2).txt") `shouldReturn` content
+
+    context "when contains '/' in the name" $ do
+      it "replaces '/' to '／'" $ \dir -> do
+        rename <- currentRename dir
+
+        withSystemTempFile "alisa" $ \path handle -> do
+          hPutStr handle content
+          hClose handle
+          Rename.copy rename path "a/b/c" "txt"
+          readFile (dir </> "a／b／c.txt") `shouldReturn` content
