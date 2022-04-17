@@ -1,6 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Data.String.Strip
+import Control.Monad.Cont
+import Control.Monad.Trans
+import Network.HTTP.Client
+import Network.HTTP.Client.TLS
+
+type AppT r m = ContT r m
 
 main :: IO ()
-main = interact strip
+main = flip runContT return $ do
+    manager <- newTlsManager
+    response <- ContT $ withResponse "https://example.com/" manager
+    lift $ print $ responseStatus response
+    return ()
