@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
+    volumes:
+      - ..:/workspace
+      - stack-work:/workspace/.stack-work
+      - stack:/root/.stack
+
+volumes:
+  stack-work:
+  stack:

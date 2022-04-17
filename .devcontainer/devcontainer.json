@@ -1,0 +1,9 @@
+{
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "extensions": [
+        "haskell.haskell"
+    ]
+}
